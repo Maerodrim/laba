@@ -37,12 +37,23 @@ public class TabulatedFunction {
     }
 
     double getRightDomainBorder() {
-        return valuesArray[count-1].pointX;
+        return valuesArray[count - 1].pointX;
     }
 
     double getFunctionValue(double x) {
-        if(x>valuesArray[count-1].pointX || x<valuesArray[0].pointX ){
-        return Double.NaN;}else{;}
+        if (x > valuesArray[count - 1].pointX || x < valuesArray[0].pointX) {
+            return Double.NaN;
+        } else {
+            if (x < getLeftDomainBorder()) {
+                return extrapolateLeft(x);
+            } else if (x > getRightDomainBorder()) {
+                return extrapolateRight(x);
+            } else if (indexOfX(x) != -1) {
+                return getY(indexOfX(x));
+            } else {
+                return interpolate(x, floorIndexOfX(x));
+            }
+        }
     }
 
     protected int floorIndexOfX(double x) {
@@ -57,24 +68,12 @@ public class TabulatedFunction {
         }
         return count;
     }
-    public double apply(double x) {
-        if (x < getLeftDomainBorder()) {
-            return extrapolateLeft(x);
-        } else if (x > getRightDomainBorder()) {
-            return extrapolateRight(x);
-        } else if (indexOfX(x) != -1) {
-            return getY(indexOfX(x));
-        } else {
-            return interpolate(x, floorIndexOfX(x));
-        }
-    }
-
 
     protected double extrapolateLeft(double x) {
         if (count == 1) {
             return x;
         }
-        return interpolate(x, xValues[0], xValues[1], yValues[0], yValues[1]);
+        return interpolate(x, valuesArray[0].pointX, valuesArray[1].pointX, valuesArray[0].pointY, valuesArray[1].pointY);
     }
 
 
@@ -86,11 +85,15 @@ public class TabulatedFunction {
     }
 
 
+    protected double interpolate(double x, double leftX, double rightX, double leftY, double rightY) {
+        return leftY + (rightY - leftY) * (x - leftX) / (rightX - leftX);
+    }
+
     protected double interpolate(double x, int floorIndex) {
         if (count == 1) {
             return x;
         }
-        return interpolate(x, valuesArray[floorIndex].pointX, xValues[floorIndex + 1], yValues[floorIndex], yValues[floorIndex + 1]);
+        return interpolate(x, valuesArray[floorIndex].pointX, valuesArray[floorIndex + 1].pointX, valuesArray[floorIndex].pointY, valuesArray[floorIndex + 1].pointY);
     }
 
 
@@ -100,24 +103,24 @@ public class TabulatedFunction {
 
 
     public double getX(int index) {
-        return xValues[index];
+        return valuesArray[index].pointX;
     }
 
 
     public double getY(int index) {
-        return yValues[index];
+        return valuesArray[index].pointY;
     }
 
 
     public void setY(int index, double value) {
-        yValues[index] = value;
+        valuesArray[index].pointY = value;
     }
 
 
     public int indexOfX(double x) {
         int i;
         for (i = 0; i < count; i++) {
-            if (xValues[i] == x) {
+            if (valuesArray[i].pointY == x) {
                 return i;
             }
         }
@@ -128,7 +131,7 @@ public class TabulatedFunction {
     public int indexOfY(double y) {
         int i;
         for (i = 0; i < count; i++) {
-            if (yValues[i] == y) {
+            if (valuesArray[i].pointY == y) {
                 return i;
             }
         }
@@ -136,34 +139,35 @@ public class TabulatedFunction {
     }
 
 
-    public void addPoint(FunctionPoint x) {
-        if (indexOfX(x) != -1) {
-            setY(indexOfX(x),y);
+    public void addPoint(FunctionPoint point) {
+        if (indexOfX(point.pointX) != -1) {
+            setY(indexOfX(point.pointX), point.pointY);
         } else {
-            int index = floorIndexOfX(x);
+            int index = floorIndexOfX(point.pointX);
             FunctionPoint[] Tmp = new FunctionPoint[count + 1];
             if (index == 0) {
-                Tmp[0] = x;
+                Tmp[0] = point;
                 System.arraycopy(valuesArray, 0, Tmp, 1, count);
                 count++;
             } else if (index == count) {
                 System.arraycopy(valuesArray, 0, Tmp, 0, count);
-                Tmp[count] = x;
+                Tmp[count] = point;
                 count++;
             } else {
                 System.arraycopy(valuesArray, 0, Tmp, 0, index);
-                Tmp[index] = x;
+                Tmp[index] = point;
                 System.arraycopy(valuesArray, index, Tmp, index + 1, (count - index));
                 count++;
             }
             this.valuesArray = Tmp;
         }
     }
+
     public void deletePoint(int index) {
         FunctionPoint[] Tmp = new FunctionPoint[count - 1];
         if (index == 0) {
-            System.arraycopy(valuesArray, 1, Tmp, 0, count-1);
-        } else if (index == (count-1)) {
+            System.arraycopy(valuesArray, 1, Tmp, 0, count - 1);
+        } else if (index == (count - 1)) {
             System.arraycopy(valuesArray, 0, Tmp, 0, count - 1);
         } else {
             System.arraycopy(valuesArray, 0, Tmp, 0, index);
