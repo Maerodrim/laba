@@ -1,8 +1,8 @@
 package Function;
 
 public class FunctionPoint {
-    public final double pointX;
-    public final double pointY;
+    public double pointX;
+    public double pointY;
 
     public FunctionPoint(double pointX, double pointY) {
         this.pointX = pointX;
