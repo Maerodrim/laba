@@ -144,37 +144,37 @@ public class TabulatedFunction {
             setY(indexOfX(point.pointX), point.pointY);
         } else {
             int index = floorIndexOfX(point.pointX);
-            FunctionPoint[] Tmp = new FunctionPoint[count + 1];
+            FunctionPoint[] tmp = new FunctionPoint[count + 1];
             if (index == 0) {
-                Tmp[0] = point;
-                System.arraycopy(valuesArray, 0, Tmp, 1, count);
+                tmp[0] = point;
+                System.arraycopy(valuesArray, 0, tmp, 1, count);
                 count++;
             } else if (index == count) {
-                System.arraycopy(valuesArray, 0, Tmp, 0, count);
-                Tmp[count] = point;
+                System.arraycopy(valuesArray, 0, tmp, 0, count);
+                tmp[count] = point;
                 count++;
             } else {
-                System.arraycopy(valuesArray, 0, Tmp, 0, index);
-                Tmp[index] = point;
-                System.arraycopy(valuesArray, index, Tmp, index + 1, (count - index));
+                System.arraycopy(valuesArray, 0, tmp, 0, index);
+                tmp[index] = point;
+                System.arraycopy(valuesArray, index, tmp, index + 1, (count - index));
                 count++;
             }
-            this.valuesArray = Tmp;
+            this.valuesArray = tmp;
         }
     }
 
     public void deletePoint(int index) {
-        FunctionPoint[] Tmp = new FunctionPoint[count - 1];
+        FunctionPoint[] tmp = new FunctionPoint[count - 1];
         if (index == 0) {
-            System.arraycopy(valuesArray, 1, Tmp, 0, count - 1);
+            System.arraycopy(valuesArray, 1, tmp, 0, count - 1);
         } else if (index == (count - 1)) {
-            System.arraycopy(valuesArray, 0, Tmp, 0, count - 1);
+            System.arraycopy(valuesArray, 0, tmp, 0, count - 1);
         } else {
-            System.arraycopy(valuesArray, 0, Tmp, 0, index);
-            System.arraycopy(valuesArray, index + 1, Tmp, index, (count - index - 1));
+            System.arraycopy(valuesArray, 0, tmp, 0, index);
+            System.arraycopy(valuesArray, index + 1, tmp, index, (count - index - 1));
         }
         count--;
-        this.valuesArray = Tmp;
+        this.valuesArray = tmp;
     }
 }
 
