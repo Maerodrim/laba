@@ -12,7 +12,7 @@ public class FunctionPoint implements Serializable {
     }
 
     public FunctionPoint(FunctionPoint point) {
-        this.pointX= point.pointX;
+        this.pointX = point.pointX;
         this.pointY = point.pointY;
     }
 
