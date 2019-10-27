@@ -1,8 +1,25 @@
-package Function;
+package functions;
 
-public class ArrayTabulatedFunction implements TabulatedFunction {
+import java.io.Serializable;
+
+public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
         private FunctionPoint[] valuesArray;
         private int pointCount;
+
+    public ArrayTabulatedFunction(FunctionPoint[] array) {
+
+        if (array.length < 2) {
+            throw new IllegalArgumentException();
+        }
+        pointCount = array.length;
+        for (int i = 1; i<array.length; i++) {
+            if (array[i-1].pointX >= array[i].pointX) {
+                throw new IllegalArgumentException();
+            }
+        }
+        valuesArray = new FunctionPoint[array.length + array.length / 2];
+        System.arraycopy(array, 0, valuesArray, 0, array.length);
+    }
 
         public ArrayTabulatedFunction(double leftX, double rightX, double[] valuesY) {
             this.pointCount = valuesY.length;
@@ -38,7 +55,7 @@ public class ArrayTabulatedFunction implements TabulatedFunction {
             return valuesArray[pointCount - 1].pointX;
         }
 
-        double getFunctionValue(double x) {
+        public double getFunctionValue(double x) {
             if (x > valuesArray[pointCount - 1].pointX || x < valuesArray[0].pointX) {
                 return Double.NaN;
             } else {

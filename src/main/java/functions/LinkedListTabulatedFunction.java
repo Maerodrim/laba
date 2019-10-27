@@ -1,6 +1,8 @@
-package Function;
+package functions;
 
-public class LinkedListTabulatedFunction implements TabulatedFunction {
+import java.io.Serializable;
+
+public class LinkedListTabulatedFunction implements TabulatedFunction , Serializable {
     private FunctionNode head;
     private int count;
 
@@ -9,7 +11,21 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
         FunctionNode prev;
         FunctionPoint point;
     }
+    public LinkedListTabulatedFunction(FunctionPoint[] array) {
 
+        if (array.length < 2) {
+            throw new IllegalArgumentException();
+        }
+        this.count= array.length;
+        for (int i = 1; i<array.length; i++) {
+            if (array[i-1].pointX >= array[i].pointX) {
+                throw new IllegalArgumentException();
+            }
+        }
+        for (int i = 0; i < count; i++) {
+            this.addNode(array[i].pointX,array[i].pointY);
+        }
+    }
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
         this.count = xValues.length;
         for (int i = 0; i < count; i++) {
@@ -58,6 +74,11 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
 
     public double getRightDomainBorder() {
         return head.prev.point.pointX;
+    }
+
+    @Override
+    public double getFunctionValue(double x) {
+        return getNode(indexOfX(x)).point.pointY;
     }
 
     private FunctionNode getNode(int index) {

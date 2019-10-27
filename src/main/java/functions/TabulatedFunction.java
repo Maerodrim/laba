@@ -1,6 +1,8 @@
-package Function;
+package functions;
 
-public interface TabulatedFunction {
+import java.io.Serializable;
+
+public interface TabulatedFunction extends Function, Serializable{
     int getPointCount();
 
     double getPointX(int index) throws RuntimeException;
@@ -11,9 +13,6 @@ public interface TabulatedFunction {
 
     int indexOfX(double x);
 
-    double getLeftDomainBorder();
-
-    double getRightDomainBorder();
 
     public void addPoint(FunctionPoint point) throws InappropriateFunctionPointException;
 

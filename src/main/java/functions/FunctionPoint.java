@@ -1,6 +1,8 @@
-package Function;
+package functions;
 
-public class FunctionPoint {
+import java.io.Serializable;
+
+public class FunctionPoint implements Serializable {
     public double pointX;
     public double pointY;
 
