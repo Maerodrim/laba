@@ -1,8 +1,10 @@
 package functions;
 
+import java.awt.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
-public class LinkedListTabulatedFunction implements TabulatedFunction , Serializable {
+public class LinkedListTabulatedFunction implements TabulatedFunction, Serializable {
     private FunctionNode head;
     private int count;
 
@@ -11,21 +13,23 @@ public class LinkedListTabulatedFunction implements TabulatedFunction , Serializ
         FunctionNode prev;
         FunctionPoint point;
     }
+
     public LinkedListTabulatedFunction(FunctionPoint[] array) {
 
         if (array.length < 2) {
             throw new IllegalArgumentException();
         }
-        this.count= array.length;
-        for (int i = 1; i<array.length; i++) {
-            if (array[i-1].pointX >= array[i].pointX) {
+        this.count = array.length;
+        for (int i = 1; i < array.length; i++) {
+            if (array[i - 1].pointX >= array[i].pointX) {
                 throw new IllegalArgumentException();
             }
         }
         for (int i = 0; i < count; i++) {
-            this.addNode(array[i].pointX,array[i].pointY);
+            this.addNode(array[i].pointX, array[i].pointY);
         }
     }
+
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
         this.count = xValues.length;
         for (int i = 0; i < count; i++) {
@@ -261,6 +265,76 @@ public class LinkedListTabulatedFunction implements TabulatedFunction , Serializ
         previous.next = further;
         further.prev = previous;
         count--;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buffer = new StringBuilder("{");
+        for (int i = 0; i < this.count; i++) {
+            buffer.append(this.getNode(i).point.toString()).append(", ");
+        }
+        buffer.deleteCharAt(buffer.length() - 1).deleteCharAt(buffer.length() - 1);
+        buffer.append("}");
+        return buffer.toString();
+
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof LinkedListTabulatedFunction) {
+            LinkedListTabulatedFunction linkedListTabulatedFunction = (LinkedListTabulatedFunction) o;
+            if (linkedListTabulatedFunction.count == this.count) {
+                for (int i = 0; i < this.count; i++) {
+                    if (this.getNode(i).point.equals(linkedListTabulatedFunction.getNode(i).point)) {
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            TabulatedFunction func = (TabulatedFunction) o;
+            if (func.getPointCount() != this.count) {
+                return false;
+            }
+            for (int i = 0; i < this.count; i++) {
+                if (!(this.getNode(i).point.equals(new FunctionPoint(func.getPointX(i), func.getPointY(i))))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+
+        FunctionNode node = head;
+
+        int result = 0;
+
+        while (node != head) {
+            result += node.point.hashCode();
+            node = node.next;
+        }
+
+        return count + result;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        FunctionPoint points[] = new FunctionPoint[count];
+        FunctionNode node = head;
+        for (int i = 0; i < this.count; i++) {
+            points[i] = node.point;
+            node = node.next;
+        }
+
+        return new LinkedListTabulatedFunction(points);
+
     }
 }
 

@@ -13,6 +13,7 @@ public interface TabulatedFunction extends Function, Serializable{
 
     int indexOfX(double x);
 
+    public Object clone() throws CloneNotSupportedException;
 
     public void addPoint(FunctionPoint point) throws InappropriateFunctionPointException;
 
