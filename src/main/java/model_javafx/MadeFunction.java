@@ -42,7 +42,7 @@ public class MadeFunction {
         Scene secondScene = new Scene(secondaryLayout, 250, 200);
         // New window (Stage)
         Stage newWindow = new Stage();
-        newWindow.setTitle("Second Stage");
+        newWindow.setTitle("Add Function");
         newWindow.setScene(secondScene);
 
         // Specifies the modality for new window.
@@ -68,11 +68,11 @@ public class MadeFunction {
         Label label4 = new Label("File: ");
         final Spinner<Integer> spinner = new Spinner<Integer>();
 
-        final int initialValue = 3;
+        final int initialValue = 10;
 
         // Value factory.
         SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 100000, initialValue);
 
         spinner.setValueFactory(valueFactory);
         // Add
@@ -86,14 +86,13 @@ public class MadeFunction {
                                 Double.parseDouble(textField.getText()),
                                 Double.parseDouble(textField2.getText()),
                                 spinner.getValue());
-
                     saveFunctionAs(textField1.getText(),function);
+                    System.out.println(function.toString());
+                    newWindow.close();
                 } catch (Exception e) {
                     ErrorWindows errorWindows = new  ErrorWindows();
                     errorWindows.showError(e);
                 }
-                System.out.println(function.toString());
-                newWindow.close();
             }
         });
 
