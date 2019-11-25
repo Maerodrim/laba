@@ -72,6 +72,20 @@ public class TableWindows {
             }
         });
 
+        graf.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    ModelFunction modelFunction = new ModelFunction(new MadeFunction().loadFunction());
+                    Graf graf1= new  Graf();
+                    graf1.grafFunction(stage, modelFunction.getX());
+                } catch (Exception e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showError(e);
+                }
+            }
+        });
         openFileItem.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
