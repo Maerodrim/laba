@@ -3,6 +3,7 @@ package model_javafx;
 import functions.Function;
 import functions.FunctionPoint;
 import functions.basic.*;
+import functions.meta.Composition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,13 +27,12 @@ public class TableWindows {
         Menu fileMenu = new Menu("File");
         Menu tableMenu = new Menu("Table");
         Menu tabuleMenu = new Menu("Tabulated");
-        //Menu metaMenu = new Menu("Tabulated");
 
-        // Create MenuItems
         MenuItem newItem = new MenuItem("New Function");
         MenuItem openFileItem = new MenuItem("Load Function");
         MenuItem saveFileItem = new MenuItem("Save Function");
         MenuItem table2 = new MenuItem("Table");
+        MenuItem graf = new MenuItem("Graf");
         MenuItem cos = new MenuItem("cos");
         MenuItem exp = new MenuItem("exp");
         MenuItem sin = new MenuItem("sin");
@@ -41,7 +41,7 @@ public class TableWindows {
 
         // Add menuItems to the Menus
         fileMenu.getItems().addAll(newItem, openFileItem, saveFileItem);
-        tableMenu.getItems().addAll(table2);
+        tableMenu.getItems().addAll(table2,graf);
         tabuleMenu.getItems().addAll(cos, sin, tan, exp, log);
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(fileMenu, tableMenu, tabuleMenu);
@@ -207,7 +207,6 @@ public class TableWindows {
 
 
 
-
         // Create column.
         TableColumn<FunctionPoint, Double> pointX //
                 = new TableColumn<FunctionPoint, Double>("pointX");
@@ -226,9 +225,7 @@ public class TableWindows {
         ObservableList<FunctionPoint> list = getModelFunctionList(modelFunction);
         table.setItems(list);
 
-        table.getColumns().
-
-                addAll(pointX, pointY);
+        table.getColumns().addAll(pointX, pointY);
 
         BorderPane root2 = new BorderPane();
         root2.setTop(menuBar);
@@ -241,7 +238,7 @@ public class TableWindows {
 
                 addAll(root2);
 
-        stage.setTitle("AAAAAAAAAAAAAAAAA");
+        stage.setTitle("Pain");
 
         Scene scene = new Scene(root, 450, 300);
         stage.setScene(scene);

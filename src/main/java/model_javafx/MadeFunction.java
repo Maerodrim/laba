@@ -4,6 +4,9 @@ import functions.Function;
 import functions.LinkedListTabulatedFunction;
 import functions.TabulatedFunction;
 import functions.TabulatedFunctions;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -68,13 +72,46 @@ public class MadeFunction {
         Label label4 = new Label("File: ");
         final Spinner<Integer> spinner = new Spinner<Integer>();
 
-        final int initialValue = 10;
+        // Editable.
+        spinner.setEditable(true);
 
-        // Value factory.
+        // Item List.
+        ObservableList<Integer> items = FXCollections.observableArrayList(1, 2, 3);
+
+        // Value Factory:
         SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 100000, initialValue);
+                new SpinnerValueFactory.ListSpinnerValueFactory<>(items);
+
+        // The converter to convert between text and item object.
+        MyConverter converter = new MyConverter();
+        valueFactory.setConverter(converter);
 
         spinner.setValueFactory(valueFactory);
+
+        spinner.getEditor().setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                String text = spinner.getEditor().getText();
+                SpinnerValueFactory.ListSpinnerValueFactory<Integer>//
+                        valueFactory = (SpinnerValueFactory.ListSpinnerValueFactory<Integer>) spinner.getValueFactory();
+
+                StringConverter<Integer> converter = valueFactory.getConverter();
+                Integer enterValue = converter.fromString(text);
+
+                // If the list does not contains 'enterValue'.
+                if (!valueFactory.getItems().contains(enterValue)) {
+                    // Add new item to list
+                    valueFactory.getItems().add(enterValue);
+                    // Set to current
+                    valueFactory.setValue(enterValue);
+                } else {
+                    // Set to current
+                    valueFactory.setValue(enterValue);
+                }
+
+            }
+        });
         // Add
         Button buttonAdd = new Button("Ok");
         buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -147,4 +184,18 @@ public class MadeFunction {
         saveFunction(functions);
         return functions;
     }
+    class MyConverter extends StringConverter<Integer> {
+
+        @Override
+        public String toString(Integer object) {
+            return object + "";
+        }
+
+        @Override
+        public Integer fromString(String string) {
+            return Integer.parseInt(string);
+        }
+
+    }
+
 }
