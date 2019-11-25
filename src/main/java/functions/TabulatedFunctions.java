@@ -79,7 +79,7 @@ public class TabulatedFunctions implements  Serializable {
             points[i] = new FunctionPoint(x, y);
         }
 
-        return new ArrayTabulatedFunction(points);
+        return new LinkedListTabulatedFunction(points);
 
     }
 }

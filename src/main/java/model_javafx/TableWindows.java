@@ -32,6 +32,9 @@ public class TableWindows {
         MenuItem openFileItem = new MenuItem("Load Function");
         MenuItem saveFileItem = new MenuItem("Save Function");
         MenuItem table2 = new MenuItem("Table");
+        MenuItem exit = new MenuItem("Exit");
+        MenuItem newPoint = new MenuItem("New Point");
+        MenuItem deletePoint = new MenuItem("Delete Point");
         MenuItem graf = new MenuItem("Graf");
         MenuItem cos = new MenuItem("cos");
         MenuItem exp = new MenuItem("exp");
@@ -40,22 +43,13 @@ public class TableWindows {
         MenuItem log = new MenuItem("log");
 
         // Add menuItems to the Menus
-        fileMenu.getItems().addAll(newItem, openFileItem, saveFileItem);
-        tableMenu.getItems().addAll(table2,graf);
+        fileMenu.getItems().addAll(newItem, openFileItem, saveFileItem, exit);
+        tableMenu.getItems().addAll(table2, graf, newPoint, deletePoint);
         tabuleMenu.getItems().addAll(cos, sin, tan, exp, log);
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(fileMenu, tableMenu, tabuleMenu);
 
         TableView<FunctionPoint> table = new TableView<FunctionPoint>();
-
-        newItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                MadeFunction madeFunction = new MadeFunction();
-                madeFunction.newFunction(stage);
-            }
-        });
 
         table2.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -71,19 +65,41 @@ public class TableWindows {
                 }
             }
         });
-
         graf.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 try {
                     ModelFunction modelFunction = new ModelFunction(new MadeFunction().loadFunction());
-                    Graf graf1= new  Graf();
+                    Graf graf1 = new Graf();
                     graf1.grafFunction(stage, modelFunction.getX());
                 } catch (Exception e) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showError(e);
                 }
+            }
+        });
+        newPoint.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Dialog dialog = new Dialog();
+                    dialog.showInputDouble2Dialog(stage);
+                } catch (Exception e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showError(e);
+                }
+            }
+        });
+
+
+        newItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                MadeFunction madeFunction = new MadeFunction();
+                madeFunction.newFunction(stage);
             }
         });
         openFileItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -102,7 +118,6 @@ public class TableWindows {
                 }
             }
         });
-
         saveFileItem.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -110,7 +125,7 @@ public class TableWindows {
                 try {
                     Dialog dialog = new Dialog();
                     MadeFunction madeFunction = new MadeFunction();
-                    madeFunction.saveFunctionAs(dialog.showInputTextDialog(),modelFunction.getX());
+                    madeFunction.saveFunctionAs(dialog.showInputTextDialog(), modelFunction.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction);
                 } catch (Exception e) {
@@ -119,6 +134,20 @@ public class TableWindows {
                 }
             }
         });
+        exit.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    stage.close();
+                } catch (Exception e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showError(e);
+                }
+            }
+        });
+
+
 
         cos.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -126,8 +155,8 @@ public class TableWindows {
             public void handle(ActionEvent event) {
                 try {
                     MadeFunction madeFunction = new MadeFunction();
-                    Function function=new Cos();
-                    ModelFunction modelFunction1 =new ModelFunction(madeFunction.tabulateFunction(function,
+                    Function function = new Cos();
+                    ModelFunction modelFunction1 = new ModelFunction(madeFunction.tabulateFunction(function,
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
@@ -145,8 +174,8 @@ public class TableWindows {
             public void handle(ActionEvent event) {
                 try {
                     MadeFunction madeFunction = new MadeFunction();
-                    Function function=new Sin();
-                    ModelFunction modelFunction1 =new ModelFunction(madeFunction.tabulateFunction(function,
+                    Function function = new Sin();
+                    ModelFunction modelFunction1 = new ModelFunction(madeFunction.tabulateFunction(function,
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
@@ -164,8 +193,8 @@ public class TableWindows {
             public void handle(ActionEvent event) {
                 try {
                     MadeFunction madeFunction = new MadeFunction();
-                    Function function=new Tan();
-                    ModelFunction modelFunction1 =new ModelFunction(madeFunction.tabulateFunction(function,
+                    Function function = new Tan();
+                    ModelFunction modelFunction1 = new ModelFunction(madeFunction.tabulateFunction(function,
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
@@ -183,8 +212,8 @@ public class TableWindows {
             public void handle(ActionEvent event) {
                 try {
                     MadeFunction madeFunction = new MadeFunction();
-                    Function function=new Exp();
-                    ModelFunction modelFunction1 =new ModelFunction(madeFunction.tabulateFunction(function,
+                    Function function = new Exp();
+                    ModelFunction modelFunction1 = new ModelFunction(madeFunction.tabulateFunction(function,
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
@@ -203,8 +232,8 @@ public class TableWindows {
                 try {
                     Dialog dialog = new Dialog();
                     MadeFunction madeFunction = new MadeFunction();
-                    Function function=new Log(Double.parseDouble(dialog.showInputDoubleDialog()));
-                    ModelFunction modelFunction1 =new ModelFunction(madeFunction.tabulateFunction(function,
+                    Function function = new Log(Double.parseDouble(dialog.showInputDoubleDialog()));
+                    ModelFunction modelFunction1 = new ModelFunction(madeFunction.tabulateFunction(function,
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
@@ -216,7 +245,6 @@ public class TableWindows {
                 }
             }
         });
-
 
 
 

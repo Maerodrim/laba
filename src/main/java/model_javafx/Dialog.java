@@ -1,7 +1,16 @@
 package model_javafx;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import functions.FunctionPoint;
+import functions.LinkedListTabulatedFunction;
+import functions.TabulatedFunction;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.Optional;
 
@@ -35,4 +44,75 @@ public class Dialog {
         return  result.get();
 
     }
-}
+    public void showInputDouble2Dialog(final Stage primaryStage){
+            FlowPane secondaryLayout = new FlowPane();
+            secondaryLayout.setPadding(new Insets(10));
+
+            Scene secondScene = new Scene(secondaryLayout, 250, 200);
+            // New window (Stage)
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Add Function");
+            newWindow.setScene(secondScene);
+
+            // Specifies the modality for new window.
+            newWindow.initModality(Modality.WINDOW_MODAL);
+
+            // Specifies the owner Window (parent) for new window
+
+            newWindow.initOwner(primaryStage);
+
+            // Set position of second window, related to primary window.
+            newWindow.setX(primaryStage.getX() + 300);
+            newWindow.setY(primaryStage.getY() + 150);
+
+            TextField textField = new TextField("");
+            textField.setMinWidth(200);
+            TextField textField2 = new TextField("");
+            textField.setMinWidth(200);
+            Label label1 = new Label("X");
+            Label label2 = new Label("Y");
+
+            // Add
+            Button buttonAdd = new Button("Ok");
+            buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public  void handle(ActionEvent event) {
+                    try { MadeFunction madeFunction = new MadeFunction();
+                        TabulatedFunction tabulatedFunction  = madeFunction.loadFunction();
+                        FunctionPoint[] functionPoints=new FunctionPoint[tabulatedFunction.getPointCount()];
+                        for (int i=0;i<tabulatedFunction.getPointCount();i++){
+                           functionPoints[i]=new FunctionPoint(tabulatedFunction.getPointX(i),tabulatedFunction.getPointY(i));
+                        }
+                        LinkedListTabulatedFunction linkedListTabulatedFunction = new LinkedListTabulatedFunction(functionPoints);
+                        linkedListTabulatedFunction.addPoint(new FunctionPoint(
+                                Double.parseDouble(textField.getText()),
+                                Double.parseDouble(textField2.getText())));
+                        madeFunction.saveFunction((TabulatedFunction) linkedListTabulatedFunction);
+                        newWindow.close();
+                    } catch (Exception e) {
+                        ErrorWindows errorWindows = new  ErrorWindows();
+                        errorWindows.showError(e);
+                    }
+                }
+            });
+
+            // Clear
+            Button buttonClear = new Button("Cancel");
+            buttonClear.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    textField.clear();
+                    textField2.clear();
+                    newWindow.close();
+                }
+            });
+
+            secondaryLayout.getChildren().addAll(
+                    label1, textField,
+                    label2, textField2,
+                    buttonAdd, buttonClear);
+            newWindow.show();
+        }
+    }
+

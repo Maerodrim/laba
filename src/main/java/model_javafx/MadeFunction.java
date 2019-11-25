@@ -118,11 +118,11 @@ public class MadeFunction {
             @Override
             public  void handle(ActionEvent event) {
                 try {
-                TabulatedFunction function =
-                        new LinkedListTabulatedFunction(
-                                Double.parseDouble(textField.getText()),
-                                Double.parseDouble(textField2.getText()),
-                                spinner.getValue());
+                    TabulatedFunction function =
+                            new LinkedListTabulatedFunction(
+                                    Double.parseDouble(textField.getText()),
+                                    Double.parseDouble(textField2.getText()),
+                                    spinner.getValue());
                     saveFunctionAs(textField1.getText(),function);
                     saveFunction(function);
                     System.out.println(function.toString());
