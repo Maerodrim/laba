@@ -5,10 +5,6 @@
  */
 package functions.basic;
 
-/**
- *
- * @author vlad
- */
 public class Cos extends TrigonometricFunction {
 
     @Override

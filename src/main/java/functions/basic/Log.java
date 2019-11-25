@@ -7,10 +7,7 @@ package functions.basic;
 
 import functions.Function;
 
-/**
- *
- * @author vlad
- */
+
 public class Log implements Function {
 
     private double base;

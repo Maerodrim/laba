@@ -87,6 +87,7 @@ public class MadeFunction {
                                 Double.parseDouble(textField2.getText()),
                                 spinner.getValue());
                     saveFunctionAs(textField1.getText(),function);
+                    saveFunction(function);
                     System.out.println(function.toString());
                     newWindow.close();
                 } catch (Exception e) {
@@ -118,7 +119,7 @@ public class MadeFunction {
     };
 
     public  void saveFunction(TabulatedFunction function) throws IOException {
-        FileWriter writer = new FileWriter(fileName+".txt");
+        FileWriter writer = new FileWriter("temp.txt");
         TabulatedFunctions.writeTabulatedFunction(function, writer);
         writer.flush();
         writer.close();
@@ -129,7 +130,13 @@ public class MadeFunction {
         writer.flush();
         writer.close();
     }
-    public  TabulatedFunction loadFunction(String fileName) throws IOException {
+    public  TabulatedFunction loadFunction() throws IOException {
+        FileReader reader = new FileReader("temp.txt");
+        TabulatedFunction function = TabulatedFunctions.readTabulatedFunction(reader);
+        reader.close();
+        return function;
+    }
+    public  TabulatedFunction loadFunctionAs(String fileName) throws IOException {
         FileReader reader = new FileReader(fileName+".txt");
         TabulatedFunction function = TabulatedFunctions.readTabulatedFunction(reader);
         reader.close();

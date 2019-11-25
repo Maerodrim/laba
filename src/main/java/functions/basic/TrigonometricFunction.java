@@ -7,10 +7,7 @@ package functions.basic;
 
 import functions.Function;
 
-/**
- *
- * @author vlad
- */
+
 public abstract class TrigonometricFunction implements Function {
 
     @Override

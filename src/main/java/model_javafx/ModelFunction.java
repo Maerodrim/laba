@@ -4,13 +4,11 @@ import functions.TabulatedFunction;
 
 import java.awt.*;
 
-public class ModelFunction {
+public class ModelFunction  {
     private TabulatedFunction x;
-    private Component y;
 
-    public ModelFunction(TabulatedFunction x, Component y) {
+    public ModelFunction(TabulatedFunction x) {
         this.x = x;
-        this.y = y;
     }
 
     public TabulatedFunction getX() {
@@ -21,11 +19,4 @@ public class ModelFunction {
         this.x = x;
     }
 
-    public Component getY() {
-        return y;
-    }
-
-    public void setY(Component y) {
-        this.y = y;
-    }
 }

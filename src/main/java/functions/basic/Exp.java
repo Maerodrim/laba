@@ -7,10 +7,6 @@ package functions.basic;
 
 import functions.Function;
 
-/**
- *
- * @author vlad
- */
 public class Exp implements Function {
 
     @Override

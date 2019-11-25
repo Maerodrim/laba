@@ -6,10 +6,7 @@
 
 package functions.basic;
 
-/**
- *
- * @author vlad
- */
+
 public class Sin extends TrigonometricFunction{
 
     @Override

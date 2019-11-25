@@ -5,10 +5,7 @@
  */
 package functions.basic;
 
-/**
- *
- * @author vlad
- */
+
 public class Tan extends TrigonometricFunction {
 
     @Override

@@ -20,6 +20,23 @@ public class FunctionPoint implements Serializable {
         this.pointX = 0;
         this.pointY = 0;
     }
+
+    public double getPointX() {
+        return pointX;
+    }
+
+    public void setPointX(double pointX) {
+        this.pointX = pointX;
+    }
+
+    public double getPointY() {
+        return pointY;
+    }
+
+    public void setPointY(double pointY) {
+        this.pointY = pointY;
+    }
+
     @Override
     public String toString(){
         return new String("("+this.pointX+"; "+this.pointY+")");
