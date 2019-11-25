@@ -12,9 +12,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,12 @@ public class TableWindows {
         tabuleMenu.getItems().addAll(cos, sin, tan, exp, log);
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(fileMenu, tableMenu, tabuleMenu);
-
+        newItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
+        openFileItem.setAccelerator(KeyCombination.keyCombination("Ctrl+W"));
+        saveFileItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
+        exit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
+        table2.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
+        graf.setAccelerator(KeyCombination.keyCombination("Ctrl+G"));
         TableView<FunctionPoint> table = new TableView<FunctionPoint>();
 
         table2.setOnAction(new EventHandler<ActionEvent>() {
@@ -85,7 +92,20 @@ public class TableWindows {
             public void handle(ActionEvent event) {
                 try {
                     Dialog dialog = new Dialog();
-                    dialog.showInputDouble2Dialog(stage);
+                    dialog.showAddPointDialog(stage);
+                } catch (Exception e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showError(e);
+                }
+            }
+        });
+        deletePoint.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Dialog dialog = new Dialog();
+                    dialog.showDeleteDialog(stage);
                 } catch (Exception e) {
                     ErrorWindows errorWindows = new ErrorWindows();
                     errorWindows.showError(e);
@@ -146,7 +166,6 @@ public class TableWindows {
                 }
             }
         });
-
 
 
         cos.setOnAction(new EventHandler<ActionEvent>() {
@@ -245,8 +264,6 @@ public class TableWindows {
                 }
             }
         });
-
-
 
 
         // Create column.

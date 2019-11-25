@@ -60,7 +60,7 @@ public class MadeFunction {
         newWindow.setX(primaryStage.getX() + 300);
         newWindow.setY(primaryStage.getY() + 150);
 
-        TextField textField1 = new TextField("");
+        TextField textField1 = new TextField("temp");
         textField1.setMinWidth(200);
         TextField textField = new TextField("");
         textField.setMinWidth(200);
