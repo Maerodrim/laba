@@ -14,12 +14,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model_javafx.Dialog;
 import model_javafx.ErrorWindows;
-import model_javafx.MadeFunction;
 import model_javafx.ModelFunction;
 import model_javafx.TableWindows;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 
 public class Main extends Application {
