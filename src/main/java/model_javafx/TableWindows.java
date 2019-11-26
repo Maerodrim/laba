@@ -129,7 +129,16 @@ public class TableWindows {
                 try {
                     Dialog dialog = new Dialog();
                     MadeFunction madeFunction = new MadeFunction();
-                    ModelFunction modelFunction = new ModelFunction(madeFunction.loadFunctionAs(dialog.showInputTextDialog()));
+                    ModelFunction modelFunction=new ModelFunction();
+                    switch(dialog.showLoadDialog()) {
+                        case "stringload":
+                            modelFunction.setX(madeFunction.loadFunctionAs(dialog.showInputTextDialog()));
+                            break;
+                        case "byteload":
+                            modelFunction.setX(madeFunction.loadByteFunctionAs(dialog.showInputTextDialog()));
+                            break;
+                    }
+                    madeFunction.saveFunction(modelFunction.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction);
                 } catch (Exception e) {
@@ -179,6 +188,7 @@ public class TableWindows {
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
+                    madeFunction.saveFunction(modelFunction1.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction1);
                 } catch (Exception e) {
@@ -198,6 +208,7 @@ public class TableWindows {
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
+                    madeFunction.saveFunction(modelFunction1.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction1);
                 } catch (Exception e) {
@@ -217,6 +228,7 @@ public class TableWindows {
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
+                    madeFunction.saveFunction(modelFunction1.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction1);
                 } catch (Exception e) {
@@ -236,6 +248,7 @@ public class TableWindows {
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
+                    madeFunction.saveFunction(modelFunction1.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction1);
                 } catch (Exception e) {
@@ -256,6 +269,7 @@ public class TableWindows {
                             modelFunction.getX().getLeftDomainBorder(),
                             modelFunction.getX().getRightDomainBorder(),
                             modelFunction.getX().getPointCount()));
+                    madeFunction.saveFunction(modelFunction1.getX());
                     TableWindows tableFunction = new TableWindows();
                     tableFunction.table(stage, modelFunction1);
                 } catch (Exception e) {

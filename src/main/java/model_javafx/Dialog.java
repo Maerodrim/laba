@@ -12,6 +12,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.print.Book;
 import java.util.Optional;
 
 public class Dialog {
@@ -42,6 +43,20 @@ public class Dialog {
 
 
         return  result.get();
+
+    }
+    public String showLoadDialog() {
+        String stringload="stringload";
+        String byteload="byteload";
+        ChoiceDialog<String> dialog = new ChoiceDialog<String>(stringload,byteload);
+
+        dialog.setTitle("Load Dialog");
+        dialog.setHeaderText("Choose type of loading:");
+        dialog.setContentText("Type:");
+
+        Optional<String> result = dialog.showAndWait();
+
+      return result.get();
 
     }
     public void showDeleteDialog(final Stage primaryStage){

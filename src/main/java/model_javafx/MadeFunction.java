@@ -17,9 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class MadeFunction {
     public MadeFunction() {
@@ -177,6 +175,12 @@ public class MadeFunction {
         FileReader reader = new FileReader(fileName+".txt");
         TabulatedFunction function = TabulatedFunctions.readTabulatedFunction(reader);
         reader.close();
+        return function;
+    }
+    public  TabulatedFunction loadByteFunctionAs(String fileName) throws IOException {
+        InputStream input = new FileInputStream(fileName+".txt");
+        TabulatedFunction function = TabulatedFunctions.inputTabulatedFunction(input);
+        input.close();
         return function;
     }
     public TabulatedFunction tabulateFunction(Function function, double leftX, double rightX, int pointsCount) throws IOException {

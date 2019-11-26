@@ -7,6 +7,9 @@ import java.awt.*;
 public class ModelFunction  {
     private TabulatedFunction x;
 
+    public ModelFunction() {
+    }
+
     public ModelFunction(TabulatedFunction x) {
         this.x = x;
     }
