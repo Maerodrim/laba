@@ -32,7 +32,26 @@ public class Functions {
     
     public static Function composition(Function f1, Function f2) {
         return new Composition(f1, f2);
-    } 
+    }
 
+    public static double integrate(Function function, double leftX, double rightX, double step) {
+        if (leftX < function.getLeftDomainBorder() || rightX > function.getRightDomainBorder()) {
+            throw new IllegalArgumentException();
+        }
+
+        double result = 0, current = leftX;
+
+        while (current < rightX) {
+            result += (function.getFunctionValue(current) + function.getFunctionValue(current + step)) * step / 2;
+            current += step;
+        }
+
+        current -= step;
+
+        result += (function.getFunctionValue(rightX) + function.getFunctionValue(current)) * (rightX - current) / 2;
+
+        return result;
+
+    }
 }
 
