@@ -1,10 +1,14 @@
 package functions;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction implements TabulatedFunction, Serializable {
+public class LinkedListTabulatedFunction implements TabulatedFunction, Serializable, Iterable<FunctionPoint> {
     private FunctionNode head;
     private int count;
 
@@ -335,6 +339,27 @@ public class LinkedListTabulatedFunction implements TabulatedFunction, Serializa
 
         return new LinkedListTabulatedFunction(points);
 
+    }
+
+    @Override
+    @NotNull
+    public Iterator<FunctionPoint> iterator() {
+        return new Iterator<FunctionPoint>() {
+            private FunctionNode node = head;
+
+            public boolean hasNext() {
+                return (node != null);
+            }
+
+            public FunctionPoint next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                FunctionPoint point = new FunctionPoint(node.point.pointX, node.point.pointY);
+                node = node != head.prev ? node.next : null;
+                return point;
+            }
+        };
     }
 }
 

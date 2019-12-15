@@ -1,9 +1,13 @@
 package functions;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
+public class ArrayTabulatedFunction implements TabulatedFunction, Serializable, Iterable<FunctionPoint> {
     private FunctionPoint[] valuesArray;
     private int pointCount;
 
@@ -46,6 +50,9 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
                 buff += step;
             }
         }
+    }
+
+    public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
     }
 
     public double getLeftDomainBorder() {
@@ -259,6 +266,25 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable {
 
         }
         return new ArrayTabulatedFunction(valuesArray);
+    }
+
+    @Override
+    @NotNull
+    public Iterator<FunctionPoint> iterator() {
+        return new Iterator<FunctionPoint>() {
+            int i = 0;
+
+            public boolean hasNext() {
+                return i != pointCount;
+            }
+
+            public FunctionPoint next() {
+                if (i == pointCount) {
+                    throw new NoSuchElementException();
+                }
+                return new FunctionPoint(valuesArray[i].pointX, valuesArray[i++].pointY);
+            }
+        };
     }
 }
 

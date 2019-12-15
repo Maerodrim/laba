@@ -2,7 +2,7 @@ package functions;
 
 import java.io.Serializable;
 
-public interface TabulatedFunction extends Function, Serializable{
+public interface TabulatedFunction extends Function, Serializable, Iterable<FunctionPoint>{
     int getPointCount();
 
     double getPointX(int index) throws RuntimeException;

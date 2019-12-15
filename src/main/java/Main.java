@@ -6,6 +6,7 @@ import functions.basic.Log;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -13,18 +14,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import model_javafx.Dialog;
 import model_javafx.ErrorWindows;
 import model_javafx.MadeFunction;
 import model_javafx.ModelFunction;
 import model_javafx.TableWindows;
-import threads.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Paths;
+
 
 public class main  /*extends Application*/ {
 
@@ -106,6 +110,7 @@ public class main  /*extends Application*/ {
         ImageView imageView = new ImageView(image);
 
         label.setGraphic(imageView);
+
         // Create menus
         Menu fileMenu = new Menu("File");
         Menu tableMenu = new Menu("Table");
@@ -114,12 +119,12 @@ public class main  /*extends Application*/ {
         MenuItem newItem = new MenuItem("New Function");
         MenuItem openFileItem = new MenuItem("Load Function");
         MenuItem table = new MenuItem("Table");
-
+        MenuItem reclama = new MenuItem("reclama");
 
 
         // Add menuItems to the Menus
         fileMenu.getItems().addAll(newItem, openFileItem);
-        tableMenu.getItems().addAll(table);
+        tableMenu.getItems().addAll(table, reclama);
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(fileMenu, tableMenu);
 
@@ -163,7 +168,19 @@ public class main  /*extends Application*/ {
                 }
             }
         });
+        reclama.setOnAction(new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                   Main main = new Main();
+                    main.start2(primaryStage);
+                } catch (Exception e) {
+                    ErrorWindows errorWindows = new ErrorWindows();
+                    errorWindows.showError(e);
+                }
+            }
+        });
         BorderPane root2 = new BorderPane();
         root2.setTop(menuBar);
         root2.setCenter(label);
@@ -174,6 +191,34 @@ public class main  /*extends Application*/ {
         Scene scene = new Scene(root, 700, 500);
 
         primaryStage.setTitle("Main");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void start2(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Media");
+        Group root = new Group();
+        String url = "1234.mp4";
+        Media media = new Media(Paths.get("1234.mp4").toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+                                     @Override
+                                     public void run() {
+                                         try {
+                                             ModelFunction modelFunction = new ModelFunction(new MadeFunction().loadFunction());
+                                             TableWindows tableWindows = new TableWindows();
+                                             tableWindows.table(primaryStage, modelFunction);
+                                         } catch (Exception e) {
+                                             ErrorWindows errorWindows = new ErrorWindows();
+                                             errorWindows.showError(e);
+                                         }
+                                     }
+                                 });
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        root.getChildren().add(mediaView);
+        Scene scene = new Scene(root, 700, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
