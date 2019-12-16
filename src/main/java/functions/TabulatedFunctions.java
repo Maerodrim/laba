@@ -1,10 +1,22 @@
 package functions;
 
+import functions.factory.ArrayTabulatedFunctionFactory;
+import functions.factory.LinkedListTabulatedFunctionFactory;
+import functions.factory.TabulatedFunctionFactory;
+
+import javax.xml.crypto.NoSuchMechanismException;
 import java.io.*;
+import java.lang.reflect.Constructor;
 
 public class TabulatedFunctions implements  Serializable {
+    private static TabulatedFunctionFactory factory = new LinkedListTabulatedFunctionFactory();
 
-    private TabulatedFunctions() {
+    public static void setTabulatedFunctionFactory(){
+        if (TabulatedFunctions.factory instanceof LinkedListTabulatedFunctionFactory) {TabulatedFunctions.factory = new ArrayTabulatedFunctionFactory();}
+        else {TabulatedFunctions.factory = new LinkedListTabulatedFunctionFactory();}
+    }
+
+    public TabulatedFunctions() {
     }
 
     public static TabulatedFunction tabulate(Function function, double leftX, double rightX, int pointsCount) {
@@ -22,7 +34,7 @@ public class TabulatedFunctions implements  Serializable {
 
         }
 
-        return new ArrayTabulatedFunction(points);
+        return create(points);
     }
 
     public static void outputTabulatedFunction(TabulatedFunction function, OutputStream out) throws IOException {
@@ -81,5 +93,67 @@ public class TabulatedFunctions implements  Serializable {
 
         return new LinkedListTabulatedFunction(points);
 
+    }
+
+    public static TabulatedFunction create(double[] xValues, double[] yValues) {
+        return factory.create(xValues,yValues);
+    }
+    public static TabulatedFunction create(FunctionPoint[] point) {
+        return factory.create(point);
+    }
+    public static TabulatedFunction create(double xFrom, double xTo, int count) {
+        return factory.create(xFrom,xTo,count);
+    }
+
+    public static TabulatedFunction create(Function func, double xFrom, double xTo, int count) {
+        return  factory.create(func,xFrom,xTo,count);
+    }
+    public static TabulatedFunction create(Class<? extends TabulatedFunction> сlas, double[] xValues, double[] yValues) {
+        Constructor constructors[] = сlas.getConstructors();
+        for (Constructor constructor : constructors) {
+            Class types[] = constructor.getParameterTypes();
+            if (types.length == 2 && types[0].equals(xValues.getClass()) && types[1].equals(yValues.getClass())) {
+                try {
+                    return (TabulatedFunction) constructor.newInstance(xValues, yValues);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        }
+
+        throw new NoSuchMechanismException();
+    }
+
+    public static TabulatedFunction create(Class<? extends TabulatedFunction> сlas, double xFrom, double xTo, int count) {
+        Constructor constructors[] = сlas.getConstructors();
+        for (Constructor constructor : constructors) {
+            Class types[] = constructor.getParameterTypes();
+            if (types.length == 3 && types[0].equals(Double.TYPE) && types[1].equals(Double.TYPE) && types[2].equals(Integer.TYPE)) {
+                try {
+                    return (TabulatedFunction) constructor.newInstance(xFrom, xTo, count);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        }
+
+        throw new NoSuchMechanismException();
+    }
+
+    public static TabulatedFunction create(Class<? extends TabulatedFunction> clas, FunctionPoint[] points) {
+        Constructor constructors[] = clas.getConstructors();
+        for (Constructor constructor : constructors) {
+            Class types[] = constructor.getParameterTypes();
+            if (types[0].equals(points.getClass())) {
+                try {
+
+                    return (TabulatedFunction) constructor.newInstance(new Object[]{points});
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        }
+
+        throw new NoSuchMechanismException();
     }
 }

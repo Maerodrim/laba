@@ -1,9 +1,6 @@
 package functions.factory;
 
-import functions.ArrayTabulatedFunction;
-import functions.Function;
-import functions.TabulatedFunction;
-import functions.TabulatedFunctions;
+import functions.*;
 
 public class ArrayTabulatedFunctionFactory implements TabulatedFunctionFactory {
 
@@ -20,6 +17,11 @@ public class ArrayTabulatedFunctionFactory implements TabulatedFunctionFactory {
     @Override
     public TabulatedFunction create(Function func, double xFrom, double xTo, int count) {
         return  TabulatedFunctions.tabulate(func, xFrom, xTo, count);
+    }
+
+    @Override
+    public TabulatedFunction create(FunctionPoint[] point) {
+        return new ArrayTabulatedFunction(point);
     }
 
 }
